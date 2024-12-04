@@ -57,8 +57,7 @@ jobs:
           STORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-        run: /
-          pwd
+        run: |
           echo "storeFile=../app/upload-keystore.jks" >> android/key.properties
           echo "storePassword=${STORE_PASSWORD}" >> android/key.properties
           echo "keyPassword=${KEY_PASSWORD}" >> android/key.properties
