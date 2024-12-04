@@ -50,10 +50,12 @@ jobs:
         run: flutter build apk --release --dart-define=API_NSV_URL=$API_NSV_URL
 
       # Step 7: Upload build artifacts (optional)
+
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: app-output
+          overwrite: true
           path: |
             build/app/outputs/flutter-apk/app-release.apk
             build/app/outputs/bundle/release/app-release.aab
