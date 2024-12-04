@@ -35,6 +35,7 @@ jobs:
           flutter-version: 3.24.5
 
       - run: flutter --version
+        name: show update workflow en el mismo push
 
       # Step 4: Install dependencies
       - name: Install dependencies
@@ -46,7 +47,7 @@ jobs:
 
       # Step 6: Build the app
       - name: Build APK or App Bundle
-        run: flutter build apk --release --dart-define=API_BASE_URL=$API_NSV_URL
+        run: flutter build apk --release --dart-define=API_NSV_URL=$API_NSV_URL
 
       # Step 7: Upload build artifacts (optional)
       - name: Upload build artifacts

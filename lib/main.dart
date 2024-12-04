@@ -12,7 +12,8 @@ class MainApp extends StatelessWidget {
     return const MaterialApp(
       home: Scaffold(
         body: Center(
-          child: Text(String.fromEnvironment('API_NSV_URL')),
+          child:
+              Text(String.fromEnvironment('API_NSV_URL', defaultValue: 'xd')),
         ),
       ),
     );
