@@ -46,7 +46,7 @@ jobs:
       - name: Set branch-specific variables
         run: echo "BRANCH_NAME=${{ github.ref_name }}" >> $GITHUB_ENV
 
-      # 4. Decodificar y configurar el keystore
+      # Step 6: Decode and configurate keystore and properties
       - name: Decode keystore
         run: |
           echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > android/app/upload-keystore.jks
@@ -63,7 +63,7 @@ jobs:
           echo "keyPassword=${KEY_PASSWORD}" >> android/key.properties
           echo "keyAlias=${KEY_ALIAS}" >> android/key.properties
 
-      # Step 6: Build the app
+      # Step 7: Build the app
       - name: Build APK or App Bundle
         run: |
           flutter build apk --release \
@@ -71,7 +71,12 @@ jobs:
           --dart-define=API_SEGURIDAD_URL=${{ vars.API_SEGURIDAD_URL }} \
           --dart-define=LABEL_VERSION=${{ vars.LABEL_VERSION }}
 
-      # Step 7: Upload build artifacts (optional)
+      # Step 7: Verify Signature
+      - name: Verify APK Signature
+        run: |
+          jarsigner -verify -verbose -certs android/app/build/outputs/apk/release/app-release.apk
+
+      # Step 8: Upload build artifacts
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:

@@ -15,6 +15,7 @@ class MainApp extends StatelessWidget {
       home: const Scaffold(
         body: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 String.fromEnvironment(
