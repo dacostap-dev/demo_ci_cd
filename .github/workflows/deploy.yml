@@ -47,7 +47,7 @@ jobs:
 
       # Step 6: Build the app
       - name: Build APK or App Bundle
-        run: flutter build apk --release --dart-define=API_NSV_URL=$API_NSV_URL
+        run: flutter build apk --release --dart-define=API_NSV_URL=API_NSV_URL
 
       # Step 7: Upload build artifacts (optional)
 
@@ -56,7 +56,5 @@ jobs:
         with:
           name: app-output
           overwrite: true
-          path: |
-            build/app/outputs/flutter-apk/app-release.apk
-            build/app/outputs/bundle/release/app-release.aab
+          path: build/app/outputs/flutter-apk/app-release.apk
           retention-days: 7
