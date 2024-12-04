@@ -71,7 +71,7 @@ jobs:
           --dart-define=API_SEGURIDAD_URL=${{ vars.API_SEGURIDAD_URL }} \
           --dart-define=LABEL_VERSION=${{ vars.LABEL_VERSION }}
 
-      # Step 7: Verify Signature
+      # Step 8: Verify Signature
       - name: Install Android SDK Build Tools
         run: |
           sudo apt-get update
@@ -79,9 +79,9 @@ jobs:
 
       - name: Verify APK Signature (v2)
         run: |
-          apksigner verify --verbose --print-certs android/app/build/outputs/apk/release/app-release.apk
+          apksigner verify --verbose --print-certs build/app/outputs/flutter-apk/app-release.apk
 
-      # Step 8: Upload build artifacts
+      # Step 9: Upload build artifacts
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
