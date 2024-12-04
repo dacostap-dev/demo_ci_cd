@@ -65,7 +65,10 @@ jobs:
 
       # Step 6: Build the app
       - name: Build APK or App Bundle
-        run: flutter build apk --release --dart-define=API_NSV_URL=${{vars.API_NSV_URL}}
+        run:
+          flutter build apk --release --dart-define=API_NSV_URL=${{vars.API_NSV_URL}} \
+          --dart-define=API_SEGURIDAD_URL=${{ vars.API_SEGURIDAD_URL }} \
+          --dart-define=LABEL_VERSION=${{ vars.LABEL_VERSION }}
 
       # Step 7: Upload build artifacts (optional)
       - name: Upload build artifacts

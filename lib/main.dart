@@ -9,11 +9,33 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
+    return MaterialApp(
+      themeMode: ThemeMode.dark,
+      darkTheme: ThemeData.dark(useMaterial3: true),
+      home: const Scaffold(
         body: Center(
-          child: Text(
-              String.fromEnvironment('API_NSV_URL', defaultValue: 'Holaa')),
+          child: Column(
+            children: [
+              Text(
+                String.fromEnvironment(
+                  'API_SEGURIDAD_URL',
+                  defaultValue: 'Enviroment api_seguridad_url',
+                ),
+              ),
+              Text(
+                String.fromEnvironment(
+                  'API_NSV_URL',
+                  defaultValue: 'Enviroment api_nsv_url',
+                ),
+              ),
+              Text(
+                String.fromEnvironment(
+                  'LABEL_VERSION',
+                  defaultValue: 'Enviroment label_version',
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
