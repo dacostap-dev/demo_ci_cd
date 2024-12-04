@@ -46,7 +46,7 @@ jobs:
 
       # Step 6: Build the app
       - name: Build APK or App Bundle
-        run: flutter build apk --release --dart-define=API_BASE_URL=https://dev.api.com --dart-define=ENVIRONMENT=development
+        run: flutter build apk --release --dart-define=API_BASE_URL=$API_NSV_URL
 
       # Step 7: Upload build artifacts (optional)
       - name: Upload build artifacts
@@ -56,3 +56,4 @@ jobs:
           path: |
             build/app/outputs/flutter-apk/app-release.apk
             build/app/outputs/bundle/release/app-release.aab
+          retention-days: 7
