@@ -46,6 +46,24 @@ jobs:
       - name: Set branch-specific variables
         run: echo "BRANCH_NAME=${{ github.ref_name }}" >> $GITHUB_ENV
 
+      # 4. Decodificar y configurar el keystore
+      - name: Decode keystore
+        run: |
+          echo ${{secrets.ANDROID_KEYSTORE_BASE64}} | base64 -d > android/app/upload-keystore.jks
+
+      #Create Key properties
+      - name: "Create Key properties"
+        env:
+          STORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: /
+          pwd
+          echo "storeFile" >> "android/app/upload-keystore.jks" >> android/key.properties
+          echo "storePassword=${STORE_PASSWORD}" >> android/key.properties
+          echo "keyPassword=${KEY_PASSWORD}" >> android/key.properties
+          echo "keyAlias=${KEY_ALIAS}" >> android/key.properties
+
       # Step 6: Build the app
       - name: Build APK or App Bundle
         run: flutter build apk --release --dart-define=API_NSV_URL=${{vars.API_NSV_URL}}
