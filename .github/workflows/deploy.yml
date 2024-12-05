@@ -6,16 +6,13 @@ on:
       - dev
       - prod
       - qa
-  pull_request:
-    branches:
-      - dev
 
 jobs:
   build-android:
     name: Build APK or App Bundle
     runs-on: ubuntu-latest
     environment: dev
-
+    timeout-minutes: 20
     steps:
       # Step 1: Checkout code
       - name: Checkout code
@@ -35,14 +32,19 @@ jobs:
           channel: stable
           flutter-version: 3.24.5
 
-      - run: flutter --version
-        name: show update workflow en el mismo push
+      - name: Flutter version
+        run: flutter --version
+
+      - name: Flutter doctor
+        run: flutter doctor -v
 
       # Step 4: Install dependencies
       - name: Install dependencies
-        run: flutter pub get
+        run: |
+          flutter pub get
+          flutter clean
 
-      # Step 5: Set environment variables based on branch
+      # Step 5: Set environment variables based on branch (diff apk or bundle)
       - name: Set branch-specific variables
         run: echo "BRANCH_NAME=${{ github.ref_name }}" >> $GITHUB_ENV
 
@@ -51,7 +53,7 @@ jobs:
         run: |
           echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > android/app/upload-keystore.jks
 
-      #Create Key properties
+      # Step 7: Create Key properties
       - name: "Create Key properties"
         env:
           STORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
@@ -63,15 +65,15 @@ jobs:
           echo "keyPassword=${KEY_PASSWORD}" >> android/key.properties
           echo "keyAlias=${KEY_ALIAS}" >> android/key.properties
 
-      # Step 7: Build the app
+      # Step 8: Build the app
       - name: Build APK or App Bundle
         run: |
-          flutter build apk --release \
+          flutter build apk --release --verbose \
           --dart-define=API_NSV_URL=${{vars.API_NSV_URL}} \
           --dart-define=API_SEGURIDAD_URL=${{ vars.API_SEGURIDAD_URL }} \
           --dart-define=LABEL_VERSION=${{ vars.LABEL_VERSION }}
 
-      # Step 8: Verify Signature
+      # Step 9: Verify Signature
       - name: Install Android SDK Build Tools
         run: |
           sudo apt-get update
@@ -81,7 +83,7 @@ jobs:
         run: |
           apksigner verify --verbose --print-certs build/app/outputs/flutter-apk/app-release.apk
 
-      # Step 9: Upload build artifacts
+      # Step 10: Upload build artifacts
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
