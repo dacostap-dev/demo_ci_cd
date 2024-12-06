@@ -10,7 +10,7 @@ on:
 jobs:
   build-android:
     name: Build APK or App Bundle
-    runs-on: windows-latest
+    runs-on: macos-latest
     environment: dev
     timeout-minutes: 20
     steps:
