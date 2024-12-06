@@ -68,7 +68,7 @@ jobs:
       # Step 8: Build the app
       - name: Build APK or App Bundle
         run: |
-          flutter build apk --release --verbose \
+          flutter build apk --release --verbose --no-shrink \
           --dart-define=API_NSV_URL=${{vars.API_NSV_URL}} \
           --dart-define=API_SEGURIDAD_URL=${{ vars.API_SEGURIDAD_URL }} \
           --dart-define=LABEL_VERSION=${{ vars.LABEL_VERSION }}
